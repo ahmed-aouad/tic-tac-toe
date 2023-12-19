@@ -45,14 +45,14 @@ def check_winner(board, player):
         return True
     return False
 
-# Fonction pour afficher le gagnant
+# Fonction pour afficher le gagnant (joueur x ou o)
 def display_winner(player):
     font = pygame.font.Font(None, 60)
     text = font.render(f"Le joueur {player} a gagné!", True, (255, 0, 0))
     text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
     screen.blit(text, text_rect)
     pygame.display.flip()
-    pygame.time.wait(3000)  # Attend 3 secondes avant de quitter le jeu
+    pygame.time.wait(3000)  # Attendre 3 secondes avant de quitter le jeu
 
 # Fonction principale du jeu
 def main():
@@ -85,7 +85,7 @@ def main():
                     board[row][col] = player_turn
                     draw_symbol(row, col, player_turn)
 
-                    # Vérifie si le joueur actuel a gagné
+                    # Vérifie si le joueur actuel a gagné (le gagnant)
                     if check_winner(board, player_turn):
                         display_winner(player_turn)
                         game_over = True
