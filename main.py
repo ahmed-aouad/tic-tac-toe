@@ -64,10 +64,10 @@ def main():
         # Efface l'écran
         screen.fill((255, 255, 255))
         
-        # Dessine la grille
+        # On dessine la grille
         draw_grid()
 
-        # Dessine les symboles déjà joués
+        # On dessine les symboles déjà joués
         for i in range(GRID_SIZE):
             for j in range(GRID_SIZE):
                 if board[i][j] != ' ':
