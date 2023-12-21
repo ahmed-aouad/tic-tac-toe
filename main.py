@@ -5,27 +5,31 @@ import random
 # Initialisation de Pygame
 pygame.init()
 
-# Définition de variables
-WIDTH, HEIGHT = 600, 600
+# Définition des constantes pour la taille de la fenêtre et les couleurs
+WIDTH, HEIGHT = 650, 650
 LINE_COLOR = (0, 0, 0)
 GRID_COLOR = (0, 0, 0)
 GRID_SIZE = 3
 CELL_SIZE = WIDTH // GRID_SIZE
 
+# Création de la fenêtre de jeu
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Tic Tac Toe")
 
+# Fonction pour dessiner la grille du jeu
 def draw_grid():
     for i in range(1, GRID_SIZE):
         pygame.draw.line(screen, LINE_COLOR, (i * CELL_SIZE, 0), (i * CELL_SIZE, HEIGHT), 2)
         pygame.draw.line(screen, LINE_COLOR, (0, i * CELL_SIZE), (WIDTH, i * CELL_SIZE), 2)
 
+# Fonction pour dessiner les symboles (X ou O) dans la grille
 def draw_symbol(row, col, symbol):
     font = pygame.font.Font(None, 120)
     text = font.render(symbol, True, (0, 0, 0))
     text_rect = text.get_rect(center=(col * CELL_SIZE + CELL_SIZE // 2, row * CELL_SIZE + CELL_SIZE // 2))
     screen.blit(text, text_rect)
 
+# Fonction pour vérifier si un joueur a gagné
 def check_winner(board, player):
     for row in board:
         if all(cell == player for cell in row):
@@ -39,6 +43,7 @@ def check_winner(board, player):
         return True
     return False
 
+# Fonction pour afficher le gagnant
 def display_winner(player):
     font = pygame.font.Font(None, 60)
     text = font.render(f"Le joueur {player} a gagné!", True, (255, 0, 0))
@@ -47,6 +52,7 @@ def display_winner(player):
     pygame.display.flip()
     pygame.time.wait(3000)
 
+# Fonction pour gérer la partie avec l'ordinateur (IA)
 def computer_move(board, player):
     empty_cells = [(i, j) for i in range(GRID_SIZE) for j in range(GRID_SIZE) if board[i][j] == ' ']
     if empty_cells:
@@ -54,10 +60,11 @@ def computer_move(board, player):
         board[row][col] = player
         draw_symbol(row, col, player)
 
+# Fonction pour choisir le mode de jeu (contre un autre joueur ou contre l'IA)
 def choose_mode():
     font = pygame.font.Font(None, 40)
-    text_vs_player = font.render("Press NumPad 1 for two-player mode", True, (0, 0, 0))
-    text_vs_ai = font.render("Press NumPad 2 to play against AI", True, (0, 0, 0))
+    text_vs_player = font.render("Appuyez sur 1 pour le mode deux joueurs", True, (0, 0, 0))
+    text_vs_ai = font.render("Appuyez sur 2 pour jouer contre l'IA", True, (0, 0, 0))
 
     while True:
         screen.fill((255, 255, 255))
@@ -71,10 +78,11 @@ def choose_mode():
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_KP1:
-                    return False  # Two-player mode
+                    return False  # Mode deux joueurs
                 elif event.key == pygame.K_KP2:
-                    return True  # AI mode
+                    return True  # Mode contre l'IA
 
+# Fonction principale pour exécuter le jeu
 def main():
     play_against_ai = choose_mode()
     board = [[' ' for _ in range(GRID_SIZE)] for _ in range(GRID_SIZE)]
@@ -110,7 +118,7 @@ def main():
                     player_turn = 'O' if player_turn == 'X' else 'X'
 
         if play_against_ai and player_turn == 'O' and not game_over:
-            pygame.time.wait(500) # Un petit délai pour l'IA
+            pygame.time.wait(500) # délai pour l'IA
             computer_move(board, 'O')
 
             if check_winner(board, 'O'):
