@@ -2,6 +2,8 @@ import pygame
 import sys
 import random
 
+
+
 # Initialisation de Pygame
 pygame.init()
 
@@ -11,6 +13,7 @@ LINE_COLOR = (0, 0, 0)
 GRID_COLOR = (0, 0, 0)
 GRID_SIZE = 3
 CELL_SIZE = WIDTH // GRID_SIZE
+
 
 # Création de la fenêtre de jeu
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -65,11 +68,13 @@ def choose_mode():
     font = pygame.font.Font(None, 40)
     text_vs_player = font.render("Appuyez sur 1 pour le mode deux joueurs", True, (0, 0, 0))
     text_vs_ai = font.render("Appuyez sur 2 pour jouer contre l'IA", True, (0, 0, 0))
+    text_sortir = font.render("Sortir du programme", True, (0, 0, 0))
 
     while True:
         screen.fill((255, 255, 255))
         screen.blit(text_vs_player, (50, 150))
         screen.blit(text_vs_ai, (50, 200))
+        screen.blit(text_sortir, (50, 250))
         pygame.display.flip()
 
         for event in pygame.event.get():
@@ -81,6 +86,8 @@ def choose_mode():
                     return False  # Mode deux joueurs
                 elif event.key == pygame.K_KP2:
                     return True  # Mode contre l'IA
+                elif event.key == pygame.K_KP3:
+                    pygame.quit()
 
 # Fonction principale pour exécuter le jeu
 def main():
@@ -113,7 +120,7 @@ def main():
                     if check_winner(board, player_turn):
                         display_winner(player_turn)
                         game_over = True
-                        break
+                        return choose_mode()
 
                     player_turn = 'O' if player_turn == 'X' else 'X'
 
@@ -124,6 +131,7 @@ def main():
             if check_winner(board, 'O'):
                 display_winner('O')
                 game_over = True
+                return choose_mode()
             else:
                 player_turn = 'X'
 
