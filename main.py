@@ -2,18 +2,15 @@ import pygame
 import sys
 import random
 
-
-
 # Initialisation de Pygame
 pygame.init()
 
 # Définition des constantes pour la taille de la fenêtre et les couleurs
 WIDTH, HEIGHT = 650, 650
-LINE_COLOR = (0, 0, 0)
-GRID_COLOR = (0, 0, 0)
-GRID_SIZE = 3
-CELL_SIZE = WIDTH // GRID_SIZE
-
+LINE_COLOR = (0, 0, 0)  # Couleur des lignes de la grille
+GRID_COLOR = (0, 0, 0)  # Couleur optionnelle, actuellement non utilisée
+GRID_SIZE = 3  # Taille de la grille (3x3 pour Tic Tac Toe)
+CELL_SIZE = WIDTH // GRID_SIZE  # Taille de chaque cellule de la grille
 
 # Création de la fenêtre de jeu
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -56,6 +53,7 @@ def display_winner(player):
     pygame.time.wait(3000)
 
 # Fonction pour gérer la partie avec l'ordinateur (IA)
+# Choix aléatoire parmi les cellules vides
 def computer_move(board, player):
     empty_cells = [(i, j) for i in range(GRID_SIZE) for j in range(GRID_SIZE) if board[i][j] == ' ']
     if empty_cells:
@@ -63,12 +61,12 @@ def computer_move(board, player):
         board[row][col] = player
         draw_symbol(row, col, player)
 
-# Fonction pour choisir le mode de jeu (contre un autre joueur ou contre l'IA)
+# Fonction pour choisir le mode de jeu
 def choose_mode():
     font = pygame.font.Font(None, 40)
     text_vs_player = font.render("Appuyez sur 1 pour le mode deux joueurs", True, (0, 0, 0))
     text_vs_ai = font.render("Appuyez sur 2 pour jouer contre l'IA", True, (0, 0, 0))
-    text_sortir = font.render("Sortir du programme", True, (0, 0, 0))
+    text_sortir = font.render("appuyez su 3 pour Quitter le Jeu", True, (0, 0, 0))
 
     while True:
         screen.fill((255, 255, 255))
@@ -91,9 +89,9 @@ def choose_mode():
 
 # Fonction principale pour exécuter le jeu
 def main():
-    play_against_ai = choose_mode()
-    board = [[' ' for _ in range(GRID_SIZE)] for _ in range(GRID_SIZE)]
-    player_turn = 'X'
+    play_against_ai = choose_mode()  # Choix du mode de jeu
+    board = [[' ' for _ in range(GRID_SIZE)] for _ in range(GRID_SIZE)]  # Initialisation du plateau de jeu
+    player_turn = 'X'  # X commence toujours
     game_over = False
 
     while not game_over:
@@ -141,3 +139,4 @@ if __name__ == "__main__":
     main()
     pygame.quit()
     sys.exit()
+
